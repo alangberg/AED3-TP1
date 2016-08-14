@@ -90,7 +90,7 @@ while n < numero:
 # resuelvo
 x = []
 while numero != 0:
-	n = asd(numero)
+	n = siguiente_a_usar(numero)
 	x.append(n)
 	numero += n
 	pass
