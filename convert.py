@@ -30,8 +30,25 @@ for d in ls:
 			res[i] = 1
 	i = i + 1
 
-res.reverse()
-print res
+# res.reverse()
+# print res
+
+i = 0
+left = []
+right = []
+for d in res:
+	if d == 1:
+		left.append(3**i)
+	elif d == -1:
+		right.append(3**i)
+	i = i + 1
+
+left.reverse()
+right.reverse()
+print str(len(left)) + " " + str(len(right))
+print left
+print right
+
 
 		
 
