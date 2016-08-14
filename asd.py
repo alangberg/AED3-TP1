@@ -1,5 +1,7 @@
 import sys
 
+# Dado un numero busco la siguiente potencia de 3 mas grande.
+# Ej: numero = 7 -> res = 9
 def siguiente(numero):
 	i = 0
 	k = len(potencias) - 1
@@ -20,6 +22,9 @@ def siguiente(numero):
 	else:
 		return potencias[k]
 
+
+# Dado un numero busco la anterior potencia de 3 mas grande.
+# Ej: numero = 7 -> res = 3
 def anterior(numero):
 	i = 0
 	k = len(potencias) - 1
@@ -40,9 +45,12 @@ def anterior(numero):
 	else:
 		return potencias[i]
 
-def asd(numero):
+
+# Esto es medio magico, surgio de mirar los resultados de varios numeros.
+# 
+def siguiente_a_usar(numero):
 	ant = anterior(numero)
-	if abs(ant - abs(numero)) < (ant / 2.0):
+	if abs(ant - abs(numero)) < (ant / 2.0): # la magia esta aca
 		# print 'anterior: ' + str(anterior(numero))
 		if numero > 0:
 			return -1*ant
@@ -56,9 +64,18 @@ def asd(numero):
 		else:
 			return sig
 
+
+
+# #
+# Aca arranca 'main'
+# #
+
 global potencias
 potencias = []
 
+
+# ----------------
+# calculo todas las potencias de 3
 numero = int(sys.argv[1])
 n = 0
 i = 0
@@ -68,10 +85,9 @@ while n < numero:
 	i += 1
 	pass
 
-print siguiente(numero)
-print anterior(numero)
+# ----------------
 
-
+# resuelvo
 x = []
 while numero != 0:
 	n = asd(numero)
