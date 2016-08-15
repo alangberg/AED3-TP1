@@ -1,5 +1,8 @@
 import sys
 
+def abs(num):
+    return -num if num < 0 else num
+
 # Dado un numero busco la siguiente potencia de 3 mas grande.
 # Ej: numero = 7 -> res = 9
 def siguiente(numero):
@@ -14,7 +17,6 @@ def siguiente(numero):
 			i = med
 		else:
 			k = med
-		
 		pass
 	
 	if potencias[i] == abs(numero):
@@ -37,7 +39,6 @@ def anterior(numero):
 			i = med
 		else:
 			k = med
-		
 		pass
 
 	if potencias[k] == abs(numero):
@@ -88,15 +89,25 @@ while n < numero:
 # ----------------
 
 # resuelvo
-x = []
+pesaIzq = []
+pesaDer = []
+izq = 0
+der = 0
 while numero != 0:
 	n = siguiente_a_usar(numero)
-	x.append(n)
-	numero += n
+	if n < 0:
+		pesaIzq.append(abs(n))
+		izq += 1
+	else:
+		pesaDer.append(n)
+		der += 1
 	pass
 
-print x
+	numero += n
 
-
-
+	pass
+pesaIzq.reverse()
+pesaDer.reverse()
+print izq, der
+print "{} \n{}".format(pesaIzq, pesaDer)
 
