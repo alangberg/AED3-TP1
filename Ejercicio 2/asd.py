@@ -77,7 +77,11 @@ potencias = []
 
 # ----------------
 # calculo todas las potencias de 3
+# for x in xrange(1,10000000000000000):
+	
 numero = int(sys.argv[1])
+aux = numero
+
 n = 0
 i = 0
 while n < numero:
@@ -85,7 +89,6 @@ while n < numero:
 	potencias.append(n)
 	i += 1
 	pass
-
 # ----------------
 
 # resuelvo
@@ -111,3 +114,5 @@ pesaDer.reverse()
 print izq, der
 print "{} \n{}".format(pesaIzq, pesaDer)
 
+# if not (aux == (sum(pesaIzq) - sum(pesaDer))):
+# print str(aux) + ': ' + str(aux == (sum(pesaIzq) - sum(pesaDer)))
