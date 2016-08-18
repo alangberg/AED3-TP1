@@ -1,8 +1,8 @@
 import sys
 
 
-indysA = [1, 2, 3, 4]
-caverA = [1, 2]
+indysA = [1, 2]
+caverA = [3, 4]
 
 indysB = []
 caverB = []
@@ -10,78 +10,172 @@ caverB = []
 class Nodo():
 	"""docstring for Nodo"""
 	def __init__(self):
-		self.aa = None
-		self.cc = None
-		self.ac = None
-		self.a = None
-		self.c = None
+		self.aa = []
+		self.cc = []
+		self.ac = []
+		self.a = []
+		self.c = []
 
-def ida(indysA, indysB, caverA, caverB, idab, movimientos):
+def ida(indysA, indysB, caverA, caverB, idab, movimientos, vel):
 
-	iA = indysA
-	iB = indysB
-	cA = caverA
-	cB = caverB
-
-	if (len(iA) > 0 and (len(iA) < len(cA))) or (len(iB) > 0 and (len(iB) < len(cB))):
+	if (len(indysA) > 0 and (len(indysA) < len(caverA))) or (len(indysB) > 0 and (len(indysB) < len(caverB))):
 		# print 'perdi', idab, indysA, '--', caverA, indysB, caverB
 		return (False, Nodo())
-	elif len(iA) == 0 and len(cA) == 0:
+	elif len(indysA) == 0 and len(caverA) == 0:
 		# print 'gane', idab, indysA, caverA, '--', indysB, caverB
-		print movimientos
+		print movimientos, vel
 		return (True, Nodo())
 
 	# print idab, indysA, caverA, '--', indysB, caverB
 
 	if idab == 1:
 		nodo = Nodo()
-		if len(iA) > 1:
+		if len(indysA) > 1:
 			movimientos.append('AA')
-			res = ida(iA[:len(iA) - 2], iB + iA[len(iA) - 2:], cA, cB, 1 - idab, movimientos)
 			movimientos.pop()
-			if res[0] == True:
-				nodo.aa = res[1]
+			nodos = []
 
-		if len(cA) > 1:
-			movimientos.append('CC')
-			res = ida(iA, iB, cA[:len(cA) - 2], cB + cA[len(cA) - 2:], 1 - idab, movimientos)
-			movimientos.pop()
+			for i in xrange(0,len(indysA)):
+				for j in xrange(i+1,len(indysA)):
 
-			if res[0] == True:
-				nodo.cc = res[1]
+					iA = list(indysA)
+					iB = list(indysB)
+					cA = list(caverA)
+					cB = list(caverB)
 
-		if len(iA) > 0 and len(cA) > 0:
-			movimientos.append('AC')
-			res = ida(iA[:len(iA) - 1], iB + iA[len(iA) - 1:], cA[:len(cA) - 1], cB + cA[len(cA) - 1:], 1 - idab, movimientos)
-			movimientos.pop()
+					newVel = vel + max(iA[i], iA[j])
+					iB.append(iA[i])
+					iB.append(iA[j])
 
-			if res[0] == True:
-				nodo.ac = res[1]
+					movimientos.append('A' + str(iA[i]) + ' A' + str(iA[j]))
+					
+					del iA[i]
+					del iA[j - 1]
 
-		if nodo.aa != None or nodo.ac != None or  nodo.cc != None:
+					res = ida(iA, iB, cA, cB, 1 - idab, movimientos, newVel)
+					movimientos.pop()
+
+					nodos.append(res)
+					pass
+				pass
+
+			for res in nodos:
+				if res[0] == 1:
+					nodo.aa.append(res[1])
+				pass
+
+		if len(caverA) > 1:
+			nodos = []
+
+			for i in xrange(0,len(caverA)):
+				for j in xrange(i+1,len(caverA)):
+					iA = list(indysA)
+					iB = list(indysB)
+					cA = list(caverA)
+					cB = list(caverB)
+
+					newVel = vel + max(cA[i], cA[j])
+					cB.append(cA[i]) 
+					cB.append(cA[j])
+
+					movimientos.append('C' + str(cA[i]) + ' C' + str(cA[j]))
+					del cA[i]
+					del cA[j - 1]
+					res = ida(iA, iB, cA, cB, 1 - idab, movimientos, newVel)
+					movimientos.pop()
+
+					nodos.append(res)
+					pass
+				pass
+
+			for res in nodos:
+				if res[0] == 1:
+					nodo.cc.append(res[1])
+				pass
+
+		if len(indysA) > 0 and len(caverA) > 0:
+			nodos = []
+			
+			for i in xrange(0,len(indysA)):
+				for j in xrange(0,len(caverA)):
+
+					iA = list(indysA)
+					iB = list(indysB)
+					cA = list(caverA)
+					cB = list(caverB)
+
+					newVel = vel + max(iA[i], cA[j])
+					iB.append(iA[i])
+					cB.append(cA[j])
+
+					movimientos.append('A' + str(iA[i]) + ' C' + str(cA[j]))
+					del iA[i]
+					del cA[j]
+					res = ida(iA, iB, cA, cB, 1 - idab, movimientos, newVel)
+					movimientos.pop()
+
+					nodos.append(res)
+					pass
+				pass
+
+			for res in nodos:
+				if res[0] == 1:
+					nodo.ac.append(res[1])
+				pass
+		if nodo.aa != [] or nodo.ac != [] or  nodo.cc != []:
 			return (True, nodo)
 		else:
 			return (False, nodo)
 	else:
 		nodo = Nodo()
-		if len(iB) > 0:
-			movimientos.append('A')
-			res = ida(iA + iB[len(iB) - 1:], iB[:len(iB) - 1], cA, cB, 1 - idab, movimientos)
-			movimientos.pop()
+		if len(indysB) > 0:
+			nodos = []
+			for i in xrange(0,len(indysB)):
+				iA = list(indysA) # pasa por copia
+				iB = list(indysB)
 
-			if res[0] == True:
-				nodo.a = res[1]
+				newVel = vel + iB[i]
+				iA.append(iB[i])
 
-		if len(cB) > 0:
-			movimientos.append('C')
-			res = ida(iA, iB, cA + cB[len(cB) - 1:], cB[:len(cB) - 1], 1 - idab, movimientos)
-			movimientos.pop()
+				# print 'A' + str(iB[i])
+				movimientos.append('A' + str(iB[i]))
+				
+				del iB[i]
+				res = ida(iA, iB, caverA, caverB, 1 - idab, movimientos, newVel)
+				movimientos.pop()
+				
+				nodos.append(res)
+				pass
 
-			if res[0] == True:
-				nodo.c = res[1]
+			for res in nodos:
+				if res[0] == 1:
+					nodo.a.append(res[1])
+				pass
+
+		if len(caverB) > 0:
+			nodos = []
+			for i in xrange(0,len(caverB)):
+				cA = list(caverA)
+				cB = list(caverB)
+
+				newVel = vel + cB[i]
+				cA.append(cB[i])
+
+				movimientos.append('C' + str(cB[i]))
+				del cB[i]
+				res = ida(indysA, indysB, cA, cB, 1 - idab, movimientos, newVel)
+				movimientos.pop()
+				
+				nodos.append(res)
+				pass
+
+			for res in nodos:
+				if res[0] == 1:
+					nodo.c.append(res[1])
+				pass
 		
 
-		if nodo.c != None or nodo.a != None:
+		if nodo.c != [] or nodo.a != []:
 			return (True, nodo)
 		else:
 			return (False, nodo)
@@ -89,6 +183,6 @@ def ida(indysA, indysB, caverA, caverB, idab, movimientos):
 
 idab = 1
 mov = []
-nodo = ida(indysA, indysB, caverA, caverB, idab, mov)
+nodo = ida(indysA, indysB, caverA, caverB, idab, mov, 0)
 
 print nodo
