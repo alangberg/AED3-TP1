@@ -1,8 +1,8 @@
 import sys
 
 
-indysA = [1, 2, 3]
-caverA = ['A', 'B']
+indysA = [1, 2, 3, 4]
+caverA = [1, 2]
 
 indysB = []
 caverB = []
@@ -90,7 +90,5 @@ def ida(indysA, indysB, caverA, caverB, idab, movimientos):
 idab = 1
 mov = []
 nodo = ida(indysA, indysB, caverA, caverB, idab, mov)
-
-
 
 print nodo
