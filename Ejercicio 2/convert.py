@@ -13,7 +13,7 @@ def toBase3(n):
 
 ls = toBase3(int(sys.argv[1]))
 ls.reverse()
-res = [0] * (len(ls) + 1)
+res = [0] * (len(ls) + 1) #arreglo de 0s
 i = 0
 for d in ls:
 	if d == 2:

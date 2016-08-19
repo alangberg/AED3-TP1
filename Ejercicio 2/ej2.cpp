@@ -1,5 +1,7 @@
 #include <vector>
 #include <iostream>
+#include <algorithm>
+#include <math.h>  
 
 using namespace std;
 
@@ -49,6 +51,7 @@ std::vector<int> balancear(std::vector<int> v){
 		i++;
 	} 
 
+
 	return reverse(res);
 }
 
@@ -60,10 +63,34 @@ void imprimirVector(std::vector<int> v){
 	cout<<endl;
 }
 
+void ej2(int n){
+std::vector<int> v = balancear(toBase3(n));
+std::vector<int> izquierda;
+std::vector<int> derecha;
+
+for (int i = 0; i < v.size(); ++i){
+	if(v[i]==1){
+		izquierda.push_back(pow(3,i));
+	}else if(v[i]==-1){
+		derecha.push_back(pow(3,i));
+	}	
+}
+
+cout<< izquierda.size() << " " << derecha.size() << endl;
+
+sort(izquierda.begin(), izquierda.end());
+sort(derecha.begin(), derecha.end());
+
+
+
+imprimirVector(izquierda);
+imprimirVector(derecha);
+
+}
+
 int main(int argc, char const *argv[])
 {
-	imprimirVector(toBase3(17));
-	imprimirVector(balancear(toBase3(17)));
+	ej2(17);
 
 	return 0;
 }
