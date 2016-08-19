@@ -2,7 +2,7 @@
 #include <iostream>
 #include <algorithm>
 #include <math.h>  
-
+#include <string>
 using namespace std;
 
 vector<int> toBase3(int n){
@@ -52,7 +52,7 @@ std::vector<int> balancear(std::vector<int> v){
 	} 
 
 
-	return reverse(res);
+	return res;
 }
 
 void imprimirVector(std::vector<int> v){
@@ -67,6 +67,7 @@ void ej2(int n){
 std::vector<int> v = balancear(toBase3(n));
 std::vector<int> izquierda;
 std::vector<int> derecha;
+
 
 for (int i = 0; i < v.size(); ++i){
 	if(v[i]==1){
@@ -88,9 +89,12 @@ imprimirVector(derecha);
 
 }
 
-int main(int argc, char const *argv[])
+int main(int argc, char *argv[])
 {
-	ej2(17);
+
+
+	int t = atoi(argv[1]);
+	ej2(t);
 
 	return 0;
 }
