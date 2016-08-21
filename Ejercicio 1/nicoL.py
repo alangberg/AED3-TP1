@@ -1,8 +1,8 @@
 import sys
 
 
-indysA = [1, 2]
-caverA = [3, 4]
+indysA = [1, 2, 3, 4]
+caverA = [1, 2]
 
 indysB = []
 caverB = []
@@ -17,22 +17,19 @@ class Nodo():
 		self.c = []
 
 def ida(indysA, indysB, caverA, caverB, idab, movimientos, vel):
-
 	if (len(indysA) > 0 and (len(indysA) < len(caverA))) or (len(indysB) > 0 and (len(indysB) < len(caverB))):
 		# print 'perdi', idab, indysA, '--', caverA, indysB, caverB
-		return (False, Nodo())
+		return (False, Nodo(), vel)
 	elif len(indysA) == 0 and len(caverA) == 0:
 		# print 'gane', idab, indysA, caverA, '--', indysB, caverB
-		print movimientos, vel
-		return (True, Nodo())
+		# print movimientos, vel
+		return (True, Nodo(), vel)
 
+	velMin	= 999
 	# print idab, indysA, caverA, '--', indysB, caverB
-
 	if idab == 1:
 		nodo = Nodo()
 		if len(indysA) > 1:
-			movimientos.append('AA')
-			movimientos.pop()
 			nodos = []
 
 			for i in xrange(0,len(indysA)):
@@ -62,6 +59,8 @@ def ida(indysA, indysB, caverA, caverB, idab, movimientos, vel):
 			for res in nodos:
 				if res[0] == 1:
 					nodo.aa.append(res[1])
+					if res[2] < velMin:
+						velMin = res[2]
 				pass
 
 		if len(caverA) > 1:
@@ -91,6 +90,8 @@ def ida(indysA, indysB, caverA, caverB, idab, movimientos, vel):
 			for res in nodos:
 				if res[0] == 1:
 					nodo.cc.append(res[1])
+					if res[2] < velMin:
+						velMin = res[2]
 				pass
 
 		if len(indysA) > 0 and len(caverA) > 0:
@@ -121,11 +122,14 @@ def ida(indysA, indysB, caverA, caverB, idab, movimientos, vel):
 			for res in nodos:
 				if res[0] == 1:
 					nodo.ac.append(res[1])
+					if res[2] < velMin:
+						velMin = res[2]
 				pass
+
 		if nodo.aa != [] or nodo.ac != [] or  nodo.cc != []:
-			return (True, nodo)
+			return (True, nodo, velMin)
 		else:
-			return (False, nodo)
+			return (False, nodo, 999)
 	else:
 		nodo = Nodo()
 		if len(indysB) > 0:
@@ -150,6 +154,8 @@ def ida(indysA, indysB, caverA, caverB, idab, movimientos, vel):
 			for res in nodos:
 				if res[0] == 1:
 					nodo.a.append(res[1])
+					if res[2] < velMin:
+						velMin = res[2]
 				pass
 
 		if len(caverB) > 0:
@@ -172,17 +178,18 @@ def ida(indysA, indysB, caverA, caverB, idab, movimientos, vel):
 			for res in nodos:
 				if res[0] == 1:
 					nodo.c.append(res[1])
+					if res[2] < velMin:
+						velMin = res[2]
 				pass
 		
-
 		if nodo.c != [] or nodo.a != []:
-			return (True, nodo)
+			return (True, nodo, velMin)
 		else:
-			return (False, nodo)
+			return (False, nodo, 999)
 		
 
 idab = 1
 mov = []
 nodo = ida(indysA, indysB, caverA, caverB, idab, mov, 0)
 
-print nodo
+print nodo[2]

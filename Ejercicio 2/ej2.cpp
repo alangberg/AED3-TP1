@@ -80,7 +80,6 @@ void ej2(int n){
 }
 
 int main(int argc, char *argv[]){
-
 	// int t = atoi(argv[1]);
 	int t;
 	cin >> t;
