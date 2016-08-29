@@ -6,7 +6,7 @@
 
 using namespace std;
 
-vector<int> toBase3(int n){
+/*vector<int> toBase3(int n){
 	vector<int> res;
 	if(n < 3){
 		res.push_back(n);
@@ -16,7 +16,9 @@ vector<int> toBase3(int n){
 		res.push_back(n % 3);
 		return res;
 	}
-}
+}*/
+
+
 
 vector<int> reverse(vector<int> v){
 	int j = 0;
@@ -27,9 +29,23 @@ vector<int> reverse(vector<int> v){
 	return res;
 }
 
+vector<int> toBase3(int n){
+	vector<int> res;
+
+	while(n>=3){
+		res.push_back(n % 3);
+		n/=3;
+	}
+	
+	if(n < 3){
+		res.push_back(n);
+		return res;
+	} 
+}
+
 vector<int> balancear(vector<int> v){
 	vector<int> res(v.size() + 1, 0);
-	v =reverse(v);
+	//v =reverse(v);
 
 	int i = 0;
 	for(int j = 0; j < v.size(); ++j){
