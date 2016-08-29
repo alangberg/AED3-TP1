@@ -10,15 +10,12 @@ using namespace std;
 	vector<int> res;
 	if(n < 3){
 		res.push_back(n);
-		return res;
 	} else {
 		res = toBase3(n / 3);
 		res.push_back(n % 3);
-		return res;
 	}
-}*/
-
-
+	return res;
+} */
 
 vector<int> reverse(vector<int> v){
 	int j = 0;
