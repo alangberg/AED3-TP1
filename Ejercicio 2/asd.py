@@ -109,10 +109,10 @@ while numero != 0:
 	numero += n
 
 	pass
-pesaIzq.reverse()
-pesaDer.reverse()
-print izq, der
-print "{} \n{}".format(pesaIzq, pesaDer)
+# pesaIzq.reverse()
+# pesaDer.reverse()
+# print izq, der
+# print "{} \n{}".format(pesaIzq, pesaDer)
 
 # if not (aux == (sum(pesaIzq) - sum(pesaDer))):
 # print str(aux) + ': ' + str(aux == (sum(pesaIzq) - sum(pesaDer)))

@@ -25,11 +25,11 @@ int main(int argc, char const *argv[])
 		vector<int> solucion(n);
 		cout << n << ' ';
 		for (int t = 0; t < repes; t++) {
-			cerr << "Empezando medicion nro "<< t+1 << " para n = " << n << endl;
+			// cerr << "Empezando medicion nro "<< t+1 << " para n = " << n << endl;
 			auto start = ya();
 			solucion = balancear(toBase3(n));
 			auto end = ya();
-			cout << chrono::duration_cast<std::chrono::nanoseconds>(end-start).count() << "\t";
+			cout << chrono::duration_cast<std::chrono::nanoseconds>(end-start).count() / repes << "\t";
 		}
 		cout << "& ";
 		for (int i = 0; i < solucion.size(); ++i)

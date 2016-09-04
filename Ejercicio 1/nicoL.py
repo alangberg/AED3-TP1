@@ -1,8 +1,8 @@
 import sys
 
 
-indysA = [1, 2, 3, 4, 1]
-caverA = [1]
+indysA = [1, 2, 3]
+caverA = [1, 2, 3]
 
 indysB = []
 caverB = []
@@ -15,6 +15,7 @@ class Nodo():
 		self.ac = []
 		self.a = []
 		self.c = []
+		self.cantidad = 1
 
 def ida(indysA, indysB, caverA, caverB, idab, movimientos, vel, b):
 	if (len(indysA) > 0 and (len(indysA) < len(caverA))) or (len(indysB) > 0 and (len(indysB) < len(caverB))):
@@ -22,7 +23,7 @@ def ida(indysA, indysB, caverA, caverB, idab, movimientos, vel, b):
 		return (False, Nodo(), vel)
 	elif len(indysA) == 0 and len(caverA) == 0:
 		# print 'gane', idab, indysA, caverA, '--', indysB, caverB
-		print movimientos, vel
+		# print movimientos, vel
 		return (True, Nodo(), vel)
 
 	velMin	= 999
@@ -58,6 +59,7 @@ def ida(indysA, indysB, caverA, caverB, idab, movimientos, vel, b):
 
 			for res in nodos:
 				if res[0] == 1:
+					nodo.cantidad += res[1].cantidad
 					nodo.aa.append(res[1])
 					if res[2] < velMin:
 						velMin = res[2]
@@ -89,6 +91,7 @@ def ida(indysA, indysB, caverA, caverB, idab, movimientos, vel, b):
 
 			for res in nodos:
 				if res[0] == 1:
+					nodo.cantidad += res[1].cantidad
 					nodo.cc.append(res[1])
 					if res[2] < velMin:
 						velMin = res[2]
@@ -121,6 +124,7 @@ def ida(indysA, indysB, caverA, caverB, idab, movimientos, vel, b):
 
 			for res in nodos:
 				if res[0] == 1:
+					nodo.cantidad += res[1].cantidad
 					nodo.ac.append(res[1])
 					if res[2] < velMin:
 						velMin = res[2]
@@ -153,6 +157,7 @@ def ida(indysA, indysB, caverA, caverB, idab, movimientos, vel, b):
 
 			for res in nodos:
 				if res[0] == 1:
+					nodo.cantidad += res[1].cantidad
 					nodo.a.append(res[1])
 					if res[2] < velMin:
 						velMin = res[2]
@@ -177,6 +182,7 @@ def ida(indysA, indysB, caverA, caverB, idab, movimientos, vel, b):
 
 			for res in nodos:
 				if res[0] == 1:
+					nodo.cantidad += res[1].cantidad
 					nodo.c.append(res[1])
 					if res[2] < velMin:
 						velMin = res[2]
@@ -211,6 +217,7 @@ def ida(indysA, indysB, caverA, caverB, idab, movimientos, vel, b):
 
 				for res in nodos:
 					if res[0] == 1:
+						nodo.cantidad += res[1].cantidad
 						nodo.ac.append(res[1])
 						if res[2] < velMin:
 							velMin = res[2]
@@ -227,5 +234,5 @@ def ida(indysA, indysB, caverA, caverB, idab, movimientos, vel, b):
 idab = 1
 mov = []
 nodo = ida(indysA, indysB, caverA, caverB, idab, mov, 0, False)
-
+print nodo[1].cantidad
 print nodo[2]

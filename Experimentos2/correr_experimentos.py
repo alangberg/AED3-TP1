@@ -7,7 +7,12 @@ ejecutable = "./tiempo"
 datoslog = "tiemposPuroPython.dat"
 datosPoda = 'tiempoPodaPython.dat'
 outputGrafico = 'ej2.png'
-rango = range(0, 10000, 500)
+
+import random
+
+rango = random.sample(xrange(1, 10000), 40)
+rango.sort()
+
 repes = 1000
 labellog = u"Sin podas"
 labelPoda = u"Con podas"
