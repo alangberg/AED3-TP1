@@ -1,22 +1,23 @@
 #encoding: utf-8
-import math
+from math import log
+from math import ceil
 
 """modo de uso: python correr_experimentos.py 1(repetir experimentos)/0(no repetir experimentos)"""
 
 ejecutable = "./tiempo"
-datoslog = "tiemposPuroPython.dat"
-datosPoda = 'tiempoPodaPython.dat'
+datoslog = "tiempoteorica.dat"
+datospotencia = 'tiempopotencia.dat'
+datospotmenos = 'tiempopotmenos.dat'
 outputGrafico = 'ej2.png'
+#rango = range(0, 10**10, (10**10)/50)
+repes = 100
+labellog = u"log3(P)"
+labelpotmenos = u"P= 3^i - 1"
+labelpotencia=u"P= 3^i"
 
-import random
-
-rango = random.sample(xrange(1, 10000), 40)
-rango.sort()
-
-repes = 1000
-labellog = u"Sin podas"
-labelPoda = u"Con podas"
-
+rango= [(3**i) for i in xrange(0,20)] 
+rango2 = [(3**i)-1 for i in xrange(0,20)]
+#rango= [3**13-1, 3**14-1]
 def funcion(a, rango):
 		return []+ map(str,map(a, rango))
 
@@ -39,7 +40,7 @@ if __name__ == '__main__':
 		#	Esto significa que si ya existe un archivo con el mismo nombre,
 		#  	éste SE SOBREESCRIBE CON UN ARCHIVO VACÍO.
 		#	Si no existe, se crea.
-		with open(datosPoda, 'w') as f:
+		with open(datospotencia, 'w') as f:
 			args =  armarArgumentos(ejecutable, repes, rango)
 			print args
 			#los parámetros de call son: 
@@ -47,6 +48,33 @@ if __name__ == '__main__':
 			#	tiene parámetros opcionales stdout, stdin, stderr para redirigirlos a archivos. 
 			#	Ojo con hacer pipes, ver documentación. 
 		 	call(args, stdout=f)
+
+		with open(datospotmenos, 'w') as f:
+			args =  armarArgumentos(ejecutable, repes, rango2)
+			print args
+			#los parámetros de call son: 
+			#	args: una lista con los argumentos del programa, como si fuera la terminal (ver armarArgumentos)
+			#	tiene parámetros opcionales stdout, stdin, stderr para redirigirlos a archivos. 
+			#	Ojo con hacer pipes, ver documentación. 
+		 	call(args, stdout=f)
+
+		with open(datoslog, 'w') as f:
+			args =  [(y,log(y,3)) for y in rango]
+			#args = map(str,map(int,args))
+			print args
+			for x in args:
+				#x[0]=str(int(x[0]))
+				#x[1]=str(int(x[1]))
+				f.write(str(long(x[0])))
+				f.write(" ")
+				f.write(str(800*long(ceil(x[1]))))
+				f.write('&')
+				f.write("\n")
+			#los parámetros de call son: 
+			#	args: una lista con los argumentos del programa, como si fuera la terminal (ver armarArgumentos)
+			#	tiene parámetros opcionales stdout, stdin, stderr para redirigirlos a archivos. 
+			#	Ojo con hacer pipes, ver documentación. 
+		 	#call(args, stdout=f)
 
 
 		# with open(datoslog, 'w') as f:
@@ -66,4 +94,4 @@ if __name__ == '__main__':
 		#	Esto significa que si no existe un archivo con ese nombre, se crea.
 		#	Si ya existe, se conserva y se le agrega  al final lo que se vaya a escribir.		
 	from plots import main
-	main(dataFiles=[datosPoda], output = outputGrafico, labels = [labelPoda], show = True)
+	main(dataFiles=[datospotencia, datoslog, datospotmenos], output = outputGrafico, labels = [labelpotencia, labellog,labelpotmenos], show = True)

@@ -5,6 +5,12 @@
 import numpy as np
 import os, sys
 import matplotlib.pyplot as pplot
+from math import log
+import correr_experimentos as ce
+from matplotlib.ticker import MultipleLocator, FormatStrFormatter
+
+
+
 
 def parse(f):
 	"""
@@ -23,9 +29,9 @@ def parse(f):
 			#partimos los tiempos por espacios
 			resto = resto.split()
 			#parseamos el n del caso
-			n = int(resto[0])
+			n = long(resto[0])
 			#convertimos a int los tiempos
-			ts = map(int, resto[1:])
+			ts = map(long, resto[2:])
 			tiempos.append((n, ts))
 	return tiempos
 
@@ -49,7 +55,7 @@ def main(dataFiles, output, show=False, labels=None):
 		#guardamos una COPIA de ns y ts para plotear
 		Xs.append(list(ns))
 		Ys.append(list(ts))
-		
+		print Ys
 	plot = myPlot(Xs, Ys, 
 		labels=labels,
 		xlabel= u"Tamaño del lado del tablero", 	#rotulamos los ejes
@@ -58,6 +64,17 @@ def main(dataFiles, output, show=False, labels=None):
 		plotter = pplot, 		#usamos el pplot
 		ylog = False				#ploteamos en log
 		)
+
+	
+	# Ys[0] = map(log(float(Ys[0]),3))
+	# plot2 = myPlot(Xs, map(log(Ys[0],3)), 
+	# 	labels=labels,
+	# 	xlabel= u"Tamaño del lado del tablero", 	#rotulamos los ejes
+	# 	ylabel=u"TIempo de ejecución (ns)", 	#empezamos los stings con u" para que use unicode y podamos poner ó, ñ...	
+	# 	title = u"Tiempo de ejecución para distintos tamaños de tablero",		#ponemos título!
+	# 	plotter = pplot, 		#usamos el pplot
+	# 	ylog = False				#ploteamos en log
+	# 	)
 	# plot = plotNBars(Xs, Ys, 
 	# 	labels=dataFiles, 
 	# 	xlabel= u"Tamaño del lado del tablero",
@@ -70,13 +87,22 @@ def main(dataFiles, output, show=False, labels=None):
 	plot.savefig(output)
 	if show:
 		plot.show()
+		#plot2.show()
 
 def myPlot(Xs, Ys, labels, xlabel, ylabel, title, plotter, ylog=False):
 	"""Plotea una curva para cada x, y, tomándolos en orden de Xs e Ys"""
+	fig, ax = pplot.subplots()
 	for (x, y, l) in zip(Xs, Ys, labels):
 		if ylog:
-			plotter.yscale('log')
+			plotter.yxscale('log')
+		# for i in xrange(0,len(x)):
+		# 	if x[i]%3==0:
+		# 		y[i]=0
 		plotter.plot(x, y, label= l, marker='o', linestyle = ':')
+		#ax.set_xscale('log', basex=3)
+		#ax.set_yscale('log', basey=3)
+
+		#pplot.ticklabel_format(style='sci', axis='x', scilimits=(0,0))
 		plotter.xlabel(xlabel)
 		plotter.ylabel(ylabel)
 		plotter.title(title)

@@ -1,32 +1,48 @@
 #include "ej2.h"
 
-vector<int> toBase3(int n){
-	vector<int> res;
+
+using namespace std;
+
+/*vector<int > toBase3(int  n){
+	vector<int > res;
 	if(n < 3){
 		res.push_back(n);
-		return res;
 	} else {
 		res = toBase3(n / 3);
 		res.push_back(n % 3);
-		return res;
 	}
-}
+	return res;
+} */
 
-vector<int> reverse(vector<int> v){
-	int j = 0;
-	vector<int> res;
-	for(int i = v.size()-1; i >= 0; --i){
+vector<int > reverse(vector<int > v){
+	int  j = 0;
+	vector<int > res;
+	for(int  i = v.size()-1; i >= 0; --i){
 		res.push_back(v[i]);
 	}
 	return res;
 }
 
-vector<int> balancear(vector<int> v){
-	vector<int> res(v.size() + 1, 0);
-	v =reverse(v);
+vector<int > toBase3(long int n){
+	vector<int > res;
 
-	int i = 0;
-	for(int j = 0; j < v.size(); ++j){
+	while(n>=3){
+		res.push_back(n % 3);
+		n/=3;
+	}
+	
+	if(n < 3){
+		res.push_back(n);
+		return res;
+	} 
+}
+
+vector<int > balancear(vector<int > v){
+	vector<int > res(v.size() + 1, 0);
+	//v =reverse(v);
+
+	int  i = 0;
+	for(int  j = 0; j < v.size(); ++j){
 		if(v[j] == 2){
 			res[i] = res[i] - 1;
 			res[i+1] = res[i+1] + 1;
@@ -43,20 +59,20 @@ vector<int> balancear(vector<int> v){
 	return res;
 }
 
-void imprimirVector(vector<int> v){
+void imprimirVector(vector<int > v){
 	if(v.size() == 0) return; // si no tiene nada, que no imprima nada
-	for(int i = 0; i < v.size(); ++i){
+	for(int  i = 0; i < v.size(); ++i){
 		cout << v[i] << " ";
 	}
 	cout << endl;
 }
 
-void ej2(int n){
-	vector<int> v = balancear(toBase3(n));
-	vector<int> izquierda;
-	vector<int> derecha;
+void ej2(int  n){
+	vector<int > v = balancear(toBase3(n));
+	vector<int > izquierda;
+	vector<int > derecha;
 
-	for(int i = 0; i < v.size(); ++i){
+	for(int  i = 0; i < v.size(); ++i){
 		if(v[i] == 1){
 			izquierda.push_back(pow(3, i));
 		}else if(v[i] == -1){
@@ -73,8 +89,8 @@ void ej2(int n){
 	imprimirVector(derecha);
 }
 
-/*int main(int argc, char *argv[]){
-	int t = atoi(argv[1]);
+/*int  main(int  argc, char *argv[]){
+	int  t = atoi(argv[1]);
 	
 	balancear(toBase3(t));
 

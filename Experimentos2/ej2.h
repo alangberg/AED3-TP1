@@ -7,10 +7,10 @@
 using namespace std;
 
 
-vector<int> toBase3(int n);
+vector<int > toBase3(long int n);
 
-vector<int> reverse(vector<int> v);
+vector<int > reverse(vector<int > v);
 
-vector<int> balancear(vector<int> v);
+vector<int > balancear(vector<int > v);
 
-void imprimirVector(vector<int> v);
+void imprimirVector(vector<int > v);

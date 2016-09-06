@@ -3,38 +3,55 @@
 #include <chrono>
 #include <stdlib.h>
 #include <vector>
+#include <math.h>
 #include <utility>
 #include <iostream>
-
+#include <fstream>
+#include <time.h>
 
 #define ya chrono::high_resolution_clock::now
 
 using namespace std;
 
-// ./tiempo repeticiones P(puro)/_(poda) n1 n2 n3 ...
+template<typename S, typename T>
+struct tupla{
+	S primero;
+	T segundo;
+	tupla(S p, T s) : primero(p), segundo(s){}
+};
 
-int main(int argc, char const *argv[])
-{
-	int repes = atoi(argv[1]);
-	//bool puro = argv[2][0] == 'P';
-	vector<int> ns(argc-3);
-	for (int i = 0; i < ns.size(); i++) {
-		ns[i] = atoi(argv[i+3]);
-	}
-	for (auto n : ns) {
-		vector<int> solucion(n);
-		cout << n << ' ';
-		for (int t = 0; t < repes; t++) {
-			// cerr << "Empezando medicion nro "<< t+1 << " para n = " << n << endl;
-			auto start = ya();
+clock_t tStart;
+clock_t tFinish;
+
+// parametros de entrada
+// 1-repeticiones, 2-desde, 3-hasta, 4-incremento, 5-salida
+// $ ./tiempo 100 0 33 1 data.out
+int main(int argc, char const *argv[]){
+	int repeticiones = atoi(argv[1]);
+	unsigned long long pMin = atoll(argv[2]);
+	unsigned long long pMax = atoll(argv[3]);
+	int inc = atoi(argv[4]);
+
+	vector< tupla<unsigned long long, double> > mediciones;
+
+	for(unsigned long long p = pMin; p <= pMax; p+=inc){
+		unsigned long long n = pow(3,p);
+		// cout << p << ' ' << n << endl;
+		vector<int> solucion;
+		double medicion = 0;
+		tStart = clock();
+		for(int i = 0; i < repeticiones; i++){
 			solucion = balancear(toBase3(n));
-			auto end = ya();
-			cout << chrono::duration_cast<std::chrono::nanoseconds>(end-start).count() / repes << "\t";
 		}
-		cout << "& ";
-		for (int i = 0; i < solucion.size(); ++i)
-				cout << solucion[i];
-		cout << "\n";
+		tFinish = clock();
+		tupla<unsigned long long, double> t(p, (double)((tFinish - tStart)/(double)(repeticiones)));
+		mediciones.push_back(t);
+	}
+	ofstream salida;
+	salida.open(argv[5]);
+	for(int i = 0; i < mediciones.size(); i++){
+		salida << mediciones[i].primero << " "
+			<< mediciones[i].segundo << endl;
 	}
 }
 
