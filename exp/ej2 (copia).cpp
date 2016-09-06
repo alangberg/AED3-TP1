@@ -34,7 +34,6 @@ vector<int > toBase3(long int n, int &i){
 	
 	if(n < 3){
 		res[i]=n;
-		//imprimirVector(res);
 		return res;
 	} 
 }
@@ -44,7 +43,7 @@ vector<int > balancear(vector<int > v, int pot_max){
 	//v =reverse(v);
 
 	int  i = 0;
-	for(int  j = 0; j <= pot_max; ++j){
+	for(int  j = 0; j < pot_max; ++j){
 		if(v[j] == 2){
 			res[i] = res[i] - 1;
 			res[i+1] = res[i+1] + 1;
@@ -72,9 +71,7 @@ void imprimirVector(vector<int > v){
 void ej2(int  n){
 	int pot_max;
 	vector<int> base3 = toBase3(n,pot_max);
-	//cout<< "pot_max" << pot_max << endl;
 	vector<int > v = balancear(base3,pot_max);
-	//imprimirVector(base3);
 	vector<int > izquierda;
 	vector<int > derecha;
 
