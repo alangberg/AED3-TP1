@@ -33,8 +33,8 @@ int main(int argc, char const *argv[]){
 	vector< tupla<unsigned long long, double> > mediciones;
 	int pot_max;
 
-	for(unsigned long long p = pMin; p <= pMax; p+=inc){
-		unsigned long long n = pow(3,p) - 1;
+	for(unsigned long long p = pMin; p <= pow(10,pMax); p+=(pow(10,pMax)/100)){
+		unsigned long long n = p;
 		// cout << p << ' ' << n << endl;
 		vector<int> solucion;
 		double medicion = 0;
@@ -44,7 +44,7 @@ int main(int argc, char const *argv[]){
 			solucion = balancear(v,pot_max);
 		}
 		auto fin_medicion = ya();
-		tupla<unsigned long long, double> t(n, (double) chrono::duration_cast<std::chrono::nanoseconds>(fin_medicion - inicio_medicion).count()/repeticiones);
+		tupla<unsigned long long, double> t(n/(log(n)/log(3)), (double) chrono::duration_cast<std::chrono::nanoseconds>(fin_medicion - inicio_medicion).count()/repeticiones);
 		mediciones.push_back(t);
 	}
 	ofstream salida;

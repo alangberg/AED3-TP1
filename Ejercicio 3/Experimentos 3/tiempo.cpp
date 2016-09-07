@@ -1,4 +1,3 @@
-#include "ej2.h"
 #include <chrono>
 #include <stdlib.h>
 #include <vector>
@@ -32,9 +31,9 @@ int main(int argc, char const *argv[]){
 
 	vector< tupla<unsigned long long, double> > mediciones;
 
-	for(unsigned long long p = pMin; p <= pow(10,pMax); p+=10065000231){
-		unsigned long long n = p;
-		//cout << n << endl;
+	for(unsigned long long p = pMin; p <= pMax; p+=inc){
+		unsigned long long n = pow(3,p);
+		// cout << p << ' ' << n << endl;
 		vector<int> solucion;
 		double medicion = 0;
 		auto inicio_medicion = ya();
@@ -42,7 +41,7 @@ int main(int argc, char const *argv[]){
 			solucion = balancear(toBase3(n));
 		}
 		auto fin_medicion = ya();
-		tupla<unsigned long long, double> t(n, (double) chrono::duration_cast<std::chrono::nanoseconds>(fin_medicion - inicio_medicion).count()/repeticiones);
+		tupla<unsigned long long, double> t(p, (double) chrono::duration_cast<std::chrono::nanoseconds>(fin_medicion - inicio_medicion).count()/repeticiones);
 		mediciones.push_back(t);
 	}
 	ofstream salida;
