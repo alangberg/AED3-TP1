@@ -1,4 +1,4 @@
-#include "ej2.h"
+#include "ej2_alternativo.h"
 #include <chrono>
 #include <stdlib.h>
 #include <vector>
@@ -31,15 +31,17 @@ int main(int argc, char const *argv[]){
 	int inc = atoi(argv[4]);
 
 	vector< tupla<unsigned long long, double> > mediciones;
+	int pot_max;
 
 	for(unsigned long long p = pMin; p <= pMax; p+=inc){
-		unsigned long long n = pow(3,p);
+		unsigned long long n = pow(3,p) - 1;
 		// cout << p << ' ' << n << endl;
 		vector<int> solucion;
 		double medicion = 0;
 		auto inicio_medicion = ya();
 		for(int i = 0; i < repeticiones; i++){
-			solucion = balancear(toBase3(n));
+			vector<int> v = toBase3(n,pot_max);
+			solucion = balancear(v,pot_max);
 		}
 		auto fin_medicion = ya();
 		tupla<unsigned long long, double> t(n, (double) chrono::duration_cast<std::chrono::nanoseconds>(fin_medicion - inicio_medicion).count()/repeticiones);

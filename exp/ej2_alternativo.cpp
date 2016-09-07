@@ -93,10 +93,10 @@ void ej2(int  n){
 	imprimirVector(derecha);
 }
 
-int  main(int  argc, char *argv[]){
+/*int  main(int  argc, char *argv[]){
 	int  t = atoi(argv[1]);
 	
 	//balancear(toBase3(t));
 	ej2(t);
 	return 0;
-}
+}*/

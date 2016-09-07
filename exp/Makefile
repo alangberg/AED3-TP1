@@ -1,7 +1,7 @@
 CPP=g++
 FLAGS= -std=c++11
 
-tiempo: tiempo.cpp ej2_alternativo.o
+tiempo: tiempo_alternativo.cpp ej2_alternativo.o
 	$(CPP) $(FLAGS) -o $@ $< ej2_alternativo.o
 
 sol: sol.cpp ej2_alternativo.o
