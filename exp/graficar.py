@@ -33,10 +33,10 @@ fig.patch.set_facecolor('white')
 
 ax1 = fig.add_subplot(111)
 pylab.plot(x_Log, y_Log, label= 'Teorica - Log(P)')
-pylab.plot(x_Pot3_Alt, y_Pot3_Alt, c='g', marker= 'o', markersize = 5,  label= 'Potencias de 3 (Estatico)')
-pylab.plot(x_Pot3Menos1_Alt, y_Pot3Menos1_Alt, c='r', marker= 'o', markersize = 5,  label= 'Potencias de 3 - 1 (Estatico)')
-pylab.plot(x_Pot3_Original, y_Pot3_Original, c='c', marker= 'o', markersize = 5,  label= 'Potencias de 3 (Redimensionable)')
-pylab.plot(x_Pot3Menos1_Original, y_Pot3Menos1_Original, c='m', marker= 'o', markersize = 5,  label= 'Potencias de 3 - 1 (Redimensionable)')
+# pylab.plot(x_Pot3_Alt, y_Pot3_Alt, c='g', marker= 'o', markersize = 5,  label= 'Potencias de 3 (Estatico)')
+# pylab.plot(x_Pot3Menos1_Alt, y_Pot3Menos1_Alt, c='r', marker= 'o', markersize = 5,  label= 'Potencias de 3 - 1 (Estatico)')
+pylab.plot(x_Pot3_Original, y_Pot3_Original, c='c', marker= 'o', markersize = 5,  label= 'Potencias de 3')
+pylab.plot(x_Pot3Menos1_Original, y_Pot3Menos1_Original, c='m', marker= 'o', markersize = 5,  label= 'Potencias de 3 - 1')
 
 ax1.set_xlabel('Peso de la llave')
 ax1.set_ylabel('Tiempo de ejecucion (nanosegundos)')
@@ -46,8 +46,8 @@ leg = ax1.legend()
 
 leg = plt.legend(loc= 'upper left')
 
-#plt.savefig('grafico.eps', format='eps', bbox_inches = 'tight')
-plt.savefig('grafico.png', format='png', bbox_inches = 'tight')
+plt.savefig('grafico.eps', format='eps', bbox_inches = 'tight')
+# plt.savefig('grafico.png', format='png', bbox_inches = 'tight')
 
 
 plt.close(fig)
