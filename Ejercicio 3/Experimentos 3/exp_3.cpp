@@ -1,8 +1,11 @@
-// g++ -std=c++11 ej3.cpp -o ej3
-// ./ej3 < entrada 
+// g++ -std=c++11 exp_3.cpp -o exp_3 
 #include <iostream>
 #include <list>
 #include <vector>
+#include <sstream>
+#include <fstream>
+#include <time.h>
+#include <chrono>
 
 #define MOCHILA_1 0
 #define MOCHILA_2 1
@@ -10,6 +13,22 @@
 #define CANT_MAX_MOCHILAS 3
 
 using namespace std;
+#define ya chrono::high_resolution_clock::now
+
+template<typename S, typename T>
+struct tupla{
+    S primero;
+    T segundo;
+    tupla(S p, T s) : primero(p), segundo(s){}
+};
+
+template<typename S, typename T, typename U>
+struct tripla{
+    S primero;
+    T segundo;
+    U tercero;
+    tripla(S p, T s, U u) : primero(p), segundo(s), tercero(u){}
+};
 
 typedef int*** matriz_3d;
 
@@ -121,8 +140,6 @@ void borrarMatriz3D(matriz_3d m, int filas, int columnas){
     delete[] m;
 }
 
-void imprimirM2D(int*** m, int filas, int columnas, int profundidad); // Para DEBUG
-
 int ej3(mochila* mochilas, int cantMochilas, tesoro* tesoros, int cantTesoros){
 
     int gananciaMaxima = 0;
@@ -209,29 +226,124 @@ int ej3(mochila* mochilas, int cantMochilas, tesoro* tesoros, int cantTesoros){
     return gananciaMaxima;
 }
 
-int main(int argc, char const *argv[]){
-    int cantMochilas, cantTesoros;
-    mochila* mochilas;
-    tesoro* tesoros;
-
-    leerEntrada(cin, &mochilas, cantMochilas, &tesoros, cantTesoros);
-    int ganancia = ej3(mochilas, cantMochilas, tesoros, cantTesoros);
-    imprimirSalida(ganancia, mochilas, cantMochilas);
-
-    delete[] mochilas;
-    delete[] tesoros;
-
-    return 0;
+string simularEntrada(vector<int> mochilas, vector< tripla<int, int, int> > tesoros){
+    string res;
+    res += to_string(mochilas.size()) + " " + to_string(tesoros.size()) + "\n";
+    for(int i = 0; i < mochilas.size(); i++){
+        if(i == 0)
+            res += to_string(mochilas[i]);
+        else
+            res += " " + to_string(mochilas[i]);
+    }
+    res += "\n";
+    for(int i = 0; i < tesoros.size(); i++)
+        res += to_string(tesoros[i].primero) + " " + to_string(tesoros[i].segundo) + " " + to_string(tesoros[i].tercero) + "\n";
+    return res;
 }
 
-// Para Debug
-void imprimirM2D(int*** m, int filas, int columnas, int profundidad){
-    for(int i = 0; i < filas; i++){
-        for(int j = 0; j < columnas; j++){
-            for(int k = 0; k < profundidad; k++){
-                cout << m[i][j][k] << " ";
-            }
+#define MAX_CANTIDAD_TESOROS 50
+#define MAX_CANTIDAD_PESO_M 50
+// ./exp_3 <-t tesoros> <cantMochilas> <peso m1> <peso m2> <peso m3> <peso del min tesoro> <peso del max tesoro> <cantidad de repeiticiones> <archivo de salida>
+//         <-m mochilas> <cantidad de tesoros> <peso del min tesoro> <peso del max tesoro> <cantidad de repeiticiones> <archivo de salida>
+int main(int argc, char const *argv[]){
+
+    vector< tupla<int, double> > mediciones;
+    string path;
+
+    if(string(argv[1])=="-t"){
+        // Variando los tesoros
+        int variaciones = MAX_CANTIDAD_TESOROS;
+        int repeticiones = atoi(argv[8]);
+        path = string(argv[9]);
+
+        vector<int> mochilasIN;
+        for(int i = 0; i < atoi(argv[2]); i++){
+            mochilasIN.push_back(atoi(argv[3+i]));
         }
-        cout << endl;
+        
+        vector< tripla<int, int, int> > tesorosIN;
+
+        for(int i = 0; i < variaciones; i++){
+            // cout << i << endl;
+            int cantMochilas, cantTesoros;
+            mochila* mochilas;
+            tesoro* tesoros;
+
+            int min = atoi(argv[6]);
+            int max = atoi(argv[7]);
+            int r = rand()%(max-min + 1) + min;
+            tesorosIN.push_back(tripla<int,int,int>(1, r, 1));
+            
+            auto inicio_medicion = ya();
+            for(int j = 0; j < repeticiones; j++){
+                istringstream iss(simularEntrada(mochilasIN, tesorosIN));
+                cin.rdbuf(iss.rdbuf());
+
+                leerEntrada(cin, &mochilas, cantMochilas, &tesoros, cantTesoros);
+
+                int ganancia = ej3(mochilas, cantMochilas, tesoros, cantTesoros);
+                // imprimirSalida(ganancia, mochilas, cantMochilas);
+
+                delete[] mochilas;
+                delete[] tesoros;
+            }
+            auto fin_medicion = ya();
+            tupla<int, double> t(i+1, (double) chrono::duration_cast<std::chrono::nanoseconds>(fin_medicion - inicio_medicion).count()/repeticiones);
+            mediciones.push_back(t);
+        }
+
+    } else {
+        // Variando la capacidad de la mochila
+        int variaciones = MAX_CANTIDAD_PESO_M;
+        int repeticiones = atoi(argv[5]);
+        path = string(argv[6]);
+
+        vector<int> mochilasIN;
+        mochilasIN.push_back(0);
+        mochilasIN.push_back(0);
+        vector< tripla<int, int, int> > tesorosIN;
+
+        int min = atoi(argv[3]);
+        int max = atoi(argv[4]);
+        for(int i = 0; i < atoi(argv[2]); i++){
+            int r = rand()%(max-min + 1) + min;
+            tesorosIN.push_back(tripla<int,int,int>(1, r, 1));
+        }
+
+        for(int i = 0; i < variaciones; i++){
+            // cout << i << endl;
+            int cantMochilas, cantTesoros;
+            mochila* mochilas;
+            tesoro* tesoros;
+
+            mochilasIN[0] = i + 1;
+            mochilasIN[1] = i + 1;
+
+            auto inicio_medicion = ya();
+            for(int j = 0; j < repeticiones; j++){
+                istringstream iss(simularEntrada(mochilasIN, tesorosIN));
+                cin.rdbuf(iss.rdbuf());
+
+                leerEntrada(cin, &mochilas, cantMochilas, &tesoros, cantTesoros);
+
+                int ganancia = ej3(mochilas, cantMochilas, tesoros, cantTesoros);
+                // imprimirSalida(ganancia, mochilas, cantMochilas);
+
+                delete[] mochilas;
+                delete[] tesoros;
+            }
+            auto fin_medicion = ya();
+            tupla<int, double> t(i+1, (double) chrono::duration_cast<std::chrono::nanoseconds>(fin_medicion - inicio_medicion).count()/repeticiones);
+            mediciones.push_back(t);
+        }
     }
+
+    ofstream salida;
+    salida.open(path.c_str());
+    for(int i = 0; i < mediciones.size(); i++){
+        salida << mediciones[i].primero << " "
+            << mediciones[i].segundo << endl;
+    }
+
+    return 0;
 }
