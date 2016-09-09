@@ -31,8 +31,8 @@ fig.patch.set_facecolor('white')
 
 ax1 = fig.add_subplot(111)
 pylab.plot(x_Lin, y_Lin, c='black', label= u'Cota teórica')
-pylab.plot(xMejorCaso, yMejorCaso, c='r', marker= 'o', markersize = 5,  label= u'Mejor caso')
-pylab.plot(xPeorCaso, yPeorCaso, c='b', marker= 'o', markersize = 5,  label= u'Peor caso')
+pylab.plot(xMejorCaso, yMejorCaso, c='r', marker= 'o', markersize = 5,  label= u'Ningún tesoro entra')
+pylab.plot(xPeorCaso, yPeorCaso, c='b', marker= 'o', markersize = 5,  label= u'Todos los tesoros entran')
 pylab.plot(xCasoRnd, yCasoRnd, c='g', marker= 'o', markersize = 5,  label= u'Caso random')
 
 ax1.set_xlabel('Cantidad de tesoros')
@@ -42,8 +42,8 @@ leg = ax1.legend()
 
 leg = plt.legend( loc = 'upper left')
 
-#plt.savefig('grafico.eps', format='eps', bbox_inches = 'tight')
-plt.savefig(sys.argv[4], format='png', bbox_inches = 'tight')
+plt.savefig(sys.argv[4], format='eps', bbox_inches = 'tight')
+# plt.savefig(sys.argv[4], format='png', bbox_inches = 'tight')
 
 
 plt.close(fig)

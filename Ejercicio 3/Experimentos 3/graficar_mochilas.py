@@ -32,8 +32,8 @@ leg = ax1.legend()
 
 leg = plt.legend( loc = 'upper left')
 
-#plt.savefig('grafico.eps', format='eps', bbox_inches = 'tight')
-plt.savefig(sys.argv[2], format='png', bbox_inches = 'tight')
+plt.savefig(sys.argv[2], format='eps', bbox_inches = 'tight')
+# plt.savefig(sys.argv[2], format='png', bbox_inches = 'tight')
 
 
 plt.close(fig)
