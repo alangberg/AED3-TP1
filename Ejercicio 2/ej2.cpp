@@ -83,13 +83,13 @@ void ej2(int n){
 		}	
 	}
 
-	// cout << izquierda.size() << " " << derecha.size() << endl;
+	cout << izquierda.size() << " " << derecha.size() << endl;
 
 	sort(izquierda.begin(), izquierda.end());
 	sort(derecha.begin(), derecha.end());
 
-	// imprimirVector(izquierda);
-	// imprimirVector(derecha);
+	imprimirVector(izquierda);
+	imprimirVector(derecha);
 }
 
 int main(int argc, char *argv[]){

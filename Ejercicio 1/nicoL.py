@@ -1,8 +1,8 @@
 import sys
 
+indysA = [1,2,3,4,5,1000000]
 
-indysA = [1,2,3]
-caverA = [4,5,6]
+caverA = []
 
 indysB = []
 caverB = []
@@ -27,7 +27,7 @@ def ida(indysA, indysB, caverA, caverB, idab, movimientos, vel, b):
 		# print movimientos, vel
 		return (True, Nodo(), vel)
 
-	velMin	= 999
+	velMin	= 9999999999
 	altura = 0
 	# print idab, indysA, caverA, '--', indysB, caverB
 	if idab == 1:

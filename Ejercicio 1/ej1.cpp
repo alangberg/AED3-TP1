@@ -1,21 +1,33 @@
 #include <iostream>
 #include <cassert>
-#include "nodo.h"
-#include "ej1.h"
+#include <stdlib.h>
+#include <sstream>
+#include <string>
+#include "./helper/nodo.h"
+#include "./helper/ej1.h"
 
 using namespace std;
 
-// Lo declaro primero porque si no no compila. La funcion ida() la usa y si no esta arriba, no sabe que es.
-Nodo* vuelta(vector<unsigned int> indysA, vector<unsigned int> canibA, vector<unsigned int> indysB, vector<unsigned int> canibB, unsigned int vel);
 
-Nodo* ida(vector<unsigned int> indysA, vector<unsigned int> canibA, vector<unsigned int> indysB, vector<unsigned int> canibB, unsigned int vel, bool antiLoop) {
+void split(const string &s, char delim, vector<int> &elems) {
+    stringstream ss;
+    ss.str(s);
+    string item;
+    while (getline(ss, item, delim)) {
+        elems.push_back(atoi(item.c_str()));
+    }
+}
+
+// Lo declaro primero porque si no no compila. La funcion ida() la usa y si no esta arriba, no sabe que es.
+Nodo* vuelta(vector<unsigned int> indysA, vector<unsigned int> canibA, vector<unsigned int> indysB, vector<unsigned int> canibB, int vel);
+
+Nodo* ida(vector<unsigned int> indysA, vector<unsigned int> canibA, vector<unsigned int> indysB, vector<unsigned int> canibB, int vel, bool antiLoop) {
 	// No importa cual sea el escenario siempre voy a necesitar un nodo nuevo
 	Nodo* new_nodo = new Nodo(); // Por default su vel = 0 y valido = true
 	
 	// Si hay mas canibales que arqueologos de algun lado (y cantidad de arqueologos != 0) perdi
 	if ((!indysA.empty() and indysA.size() < canibA.size()) || (!indysB.empty() and indysB.size() < canibB.size())) {
 		new_nodo->valido = false; // Marco en el nodo que NO es solucion
-		new_nodo->vel = vel; // Seteo la valocidad (podria no hacerlo, al no ser una solucion nunca la voy mirar)
 		return new_nodo;
 
 	// Si no hay mas arqueologos ni canibales del lado A, gane
@@ -125,19 +137,21 @@ Nodo* ida(vector<unsigned int> indysA, vector<unsigned int> canibA, vector<unsig
 	new_nodo->vel = vel_min; // seteo la velocidad del nuevo vector con el minimo obtenido
 	// si todos sus vectores de ramas estan vacios quiere decir que ninguno fue solucion, entonces este nodo tampoco lo es
 	// caso contrario, por default valido = true
-	if (new_nodo->aa.empty() and new_nodo->cc.empty() and new_nodo->ac.empty()) new_nodo->valido = false;
+	if (new_nodo->aa.empty() and new_nodo->cc.empty() and new_nodo->ac.empty())	{
+		new_nodo->valido = false;
+		new_nodo->vel = -1;
+	}
 	return new_nodo;
 }
 
 
 // Este el escenario donde estan volviendo del lado B a A
 // la logica es exactamente la misma que la de arriba, solo que considera unicamente los movimientos A y C
-Nodo* vuelta(vector<unsigned int> indysA, vector<unsigned int> canibA, vector<unsigned int> indysB, vector<unsigned int> canibB, unsigned int vel) {
+Nodo* vuelta(vector<unsigned int> indysA, vector<unsigned int> canibA, vector<unsigned int> indysB, vector<unsigned int> canibB, int vel) {
 	Nodo* new_nodo = new Nodo();
 
 	if ((!indysA.empty() and indysA.size() < canibA.size()) || (!indysB.empty() and indysB.size() < canibB.size())) {
 		new_nodo->valido = false;
-		new_nodo->vel = vel;
 		return new_nodo;
 	} else if (indysA.empty() && canibA.empty()) {
 		new_nodo->vel = vel;
@@ -221,88 +235,67 @@ Nodo* vuelta(vector<unsigned int> indysA, vector<unsigned int> canibA, vector<un
 		}
 
 	new_nodo->vel = vel_min;
-	if (new_nodo->a.empty() and new_nodo->c.empty() and new_nodo->ac.empty()) new_nodo->valido = false;
+	if (new_nodo->a.empty() and new_nodo->c.empty() and new_nodo->ac.empty()) {
+		new_nodo->valido = false;
+		new_nodo->vel = -1;
+	}
 	return new_nodo;
 }
 
-// unsigned int main(unsigned int argc, char const *argv[]) {
+int main(int argc, char const *argv[]) {
 	
-// 	// vector<unsigned int> indysA;
-// 	vector<unsigned int> indysB;
-
-// 	vector<unsigned int> canibA;
-// 	vector<unsigned int> canibB;
-
-// 	// unsigned int cantidad_arqueologos;
-// 	// unsigned int cantidad_canibales;
-
-// 	// string entrada;
-// 	// getline(cin, entrada, '\n'); // tomo toda la linea de entrada como string
-
-// 	// // saco el 1er y 3er elemento, esto es medio harcodeado por dos cosas
-// 	// // 1. asumo que no me van a pasar numeros mayores a 6 y por lo tanto no van a tener dos digitos, por eso [0] y [2] y no algo mas unsigned inteligente
-// 	// // 2. como cada numero esta en 'char' tengo que pasarlo a 'unsigned int', '0' = 48. Ej. '2' = 50, 2 = '2' - 48
-// 	// cantidad_arqueologos = (unsigned int) entrada[0] -48;
-// 	// cantidad_canibales = (unsigned int) entrada[2] -48;
-
-// 	// assert(cantidad_arqueologos > 0 and cantidad_arqueologos >= cantidad_canibales); // un assert para no pifiarla
-
-// 	// if (cantidad_arqueologos > 0) {
-// 	// 	cout << "Ingrese " << cantidad_arqueologos << " arqueologos: ";
-// 	// 	getline(cin, entrada, '\n');
-
-// 	// 	for (unsigned int i = 0; i < entrada.length(); i++) {
-// 	// 		indysA.push_back((unsigned int) entrada[i] -48); // aca la idea es la misma que arriba
-// 	// 		i++;
-// 	// 	}
-// 	// }
-
-// 	// assert(cantidad_arqueologos == indysA.size());
-
-// 	// if (cantidad_canibales > 0) {
-// 	// 	cout << "Ingrese " << cantidad_canibales << " canibales: ";
-// 	// 	getline(cin, entrada, '\n');
-// 	// 	for (unsigned int i = 0; i < entrada.length(); i++) {
-// 	// 		canibA.push_back((unsigned int) entrada[i] -48); // aca la idea es la misma que arriba
-// 	// 		i++;
-// 	// 	}
-// 	// }
-
-// 	// assert(cantidad_canibales == canibA.size());
-
-
-// 	unsigned int para_testear[] = {1, 2, 3, 4, 5, 6};
-// 	std::vector<unsigned int> indysA (para_testear, para_testear + sizeof(para_testear) / sizeof(unsigned int));
-
-
-// 	Nodo* res = ida(indysA, canibA, indysB, canibB, 0, false); // Where the magic happens!!
-// 	// cout << "Resultado: " << res->valido << endl;
-// 	// cout << "Velocidad minima: " << res->vel << endl;
-	
-// 	cout << res->vel << endl;
-
-// 	delete res; // no hay que olvidar de deletear que si no perdemos memoria
-
-// 	return 0;
-// }
-
-
-
-void test() {
-	// vector<unsigned int> indysA;
+	vector<unsigned int> indysA;
 	vector<unsigned int> indysB;
 
 	vector<unsigned int> canibA;
-	vector<unsigned int> canibB;	
+	vector<unsigned int> canibB;
 
-	unsigned int para_testear[] = {1, 2, 3, 4, 5, 6};
-	std::vector<unsigned int> indysA (para_testear, para_testear + sizeof(para_testear) / sizeof(unsigned int));
+	unsigned int cantidad_arqueologos;
+	unsigned int cantidad_canibales;
 
-	Nodo* res = ida(indysA, canibA, indysB, canibB, 0, false); // Where the magic happens!!
-	
-	// cout << res->vel << endl;
+	string entrada;
+	getline(cin, entrada, '\n'); // tomo toda la linea de entrada como string
+
+	// saco el 1er y 3er elemento, esto es medio harcodeado por dos cosas
+	// 1. asumo que no me van a pasar numeros mayores a 6 y por lo tanto no van a tener dos digitos, por eso [0] y [2] y no algo mas unsigned int
+	// 2. como cada numero esta en 'char' tengo que pasarlo a 'unsigned int', '0' = 48. Ej. '2' = 50, 2 = '2' - 48
+	cantidad_arqueologos = (unsigned int) entrada[0] -48;
+	cantidad_canibales = (unsigned int) entrada[2] -48;
+
+	assert(cantidad_arqueologos > 0 and cantidad_arqueologos >= cantidad_canibales); // un assert para no pifiarla
+	std::vector<int> numeros;
+
+	if (cantidad_arqueologos > 0) {
+		cout << "Ingrese " << cantidad_arqueologos << " arqueologos: ";
+		getline(cin, entrada, '\n');
+
+		split(entrada, ' ', numeros);
+
+		for (unsigned int i = 0; i < numeros.size(); i++) {
+			indysA.push_back(numeros[i]); // aca la idea es la misma que arriba
+		}
+	}
+
+	assert(cantidad_arqueologos == indysA.size());
+	numeros.clear();
+
+	if (cantidad_canibales > 0) {
+		cout << "Ingrese " << cantidad_canibales << " canibales: ";
+		getline(cin, entrada, '\n');
+		split(entrada, ' ', numeros);
+
+		for (unsigned int i = 0; i < numeros.size(); i++) {
+			canibA.push_back(numeros[i]); // aca la idea es la misma que arriba
+		}
+	}
+
+	assert(cantidad_canibales == canibA.size());
+
+	Nodo* res = ida(indysA, canibA, indysB, canibB, 0, false);
+	cout << res->vel << endl;
 
 	delete res; // no hay que olvidar de deletear que si no perdemos memoria
+
+	return 0;
 }
-
-
+	

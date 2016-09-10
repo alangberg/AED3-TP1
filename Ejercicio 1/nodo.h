@@ -4,7 +4,7 @@
 
 using namespace std;
 
-#define INF 999 // alguna cota lo suficientemente grande
+#define INF 1000001 // alguna cota lo suficientemente grande
 
 struct Nodo {
 
@@ -17,7 +17,7 @@ struct Nodo {
 		this->a = vacio;
 		this->c = vacio;
 
-		this->vel = 0;
+		this->vel = -1;
 		this->valido = true; // por default todos los nodos son soluciones validas
 	}
 	
