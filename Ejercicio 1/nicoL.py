@@ -1,6 +1,6 @@
 import sys
 
-indysA = [1,2,3,4,5,1000000]
+indysA = [1,2,3,4,5,6]
 
 caverA = []
 
