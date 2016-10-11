@@ -67,7 +67,6 @@ c2_x = [row[0] for row in arr]
 c2_y = [row[1] for row in arr]
 # err2 = [row[2] for row in arr]
 
-
 arro3 = np.genfromtxt("teorico")
 c3_x = [row[0] for row in arro3]
 c3_y = [row[1] for row in arro3]
@@ -95,12 +94,12 @@ ax1 = fig.add_subplot(111)
 pylab.plot(c0_x,c0_y,c='r', marker='o', markersize=5, label= 'M = 0')
 pylab.plot(c1_x,c1_y,c='b', marker='s', markersize=5, label= 'M = 1')
 pylab.plot(c2_x,c2_y,c='c', marker='D', markersize=5, label= 'M = 2')
-# pylab.plot(c3_x,c3_y,c='g', marker='^', markersize=5, label= 'f(n)')
+pylab.plot(c3_x,c3_y,c='g', marker='^', markersize=5, label= 'f(n)')
 # pylab.plot(asm_x,asm_y,c='m', label = 'ASM - SIMD')
 
 # # pylab.plot((a),(b), c='r', label ='f(X)=1024x')
 # # plt.errorbar(w, z, np.std(desvio))
-ax1.set_title("Ejercicio 1 - Tiempos de Ejecucion")
+# ax1.set_title("Ejercicio 1 - Tiempos de Ejecucion")
 ax1.set_xlabel('Cantidad de arqueologos - N')
 ax1.set_ylabel('Tiempo en nanosegundos')
 ax1.set_yscale('log', basey=2)
