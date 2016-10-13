@@ -294,13 +294,20 @@ int main(int argc, char const *argv[]){
 
     } else {
         // Variando la capacidad de la mochila
-        int variaciones = MAX_CANTIDAD_PESO_M;
+        // [2-12],[12-2],[4-6],[6-4],[3-8],[8-3]
+        vector< tupla<int, int> > capacidades;
+        capacidades.push_back(tupla<int, int>(2, 12));
+        capacidades.push_back(tupla<int, int>(12, 2));
+        capacidades.push_back(tupla<int, int>(4, 6));
+        capacidades.push_back(tupla<int, int>(6, 4));
+        capacidades.push_back(tupla<int, int>(3, 8));
+        capacidades.push_back(tupla<int, int>(8, 3));
+
+        int variaciones = capacidades.size(); 
         int repeticiones = atoi(argv[5]);
         path = string(argv[6]);
 
-        vector<int> mochilasIN;
-        mochilasIN.push_back(0);
-        mochilasIN.push_back(0);
+        vector<int> mochilasIN(2);
         vector< tripla<int, int, int> > tesorosIN;
 
         int min = atoi(argv[3]);
@@ -316,8 +323,8 @@ int main(int argc, char const *argv[]){
             mochila* mochilas;
             tesoro* tesoros;
 
-            mochilasIN[0] = i + 1;
-            mochilasIN[1] = i + 1;
+            mochilasIN[0] = capacidades[i].primero;
+            mochilasIN[1] = capacidades[i].segundo;
 
             auto inicio_medicion = ya();
             for(int j = 0; j < repeticiones; j++){

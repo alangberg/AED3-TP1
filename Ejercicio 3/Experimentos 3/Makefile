@@ -26,5 +26,5 @@ tesoros:
 
 mochilas:
 	clear && \
-	./exp_3 -m 30 0 50 50 exp_por_mochila.out && echo "Listo" && \
+	./exp_3 -m 30 0 50 100 exp_por_mochila.out && echo "Listo" && \
 	python graficar_mochilas.py exp_por_mochila.out mochilas_grafico.eps

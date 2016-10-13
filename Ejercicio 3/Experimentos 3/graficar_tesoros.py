@@ -33,7 +33,7 @@ ax1 = fig.add_subplot(111)
 pylab.plot(x_Lin, y_Lin, c='black', label= u'Cota teórica')
 pylab.plot(xMejorCaso, yMejorCaso, c='r', marker= 'o', markersize = 5,  label= u'Ningún tesoro entra')
 pylab.plot(xPeorCaso, yPeorCaso, c='b', marker= 'o', markersize = 5,  label= u'Todos los tesoros entran')
-pylab.plot(xCasoRnd, yCasoRnd, c='g', marker= 'o', markersize = 5,  label= u'Caso random')
+pylab.plot(xCasoRnd, yCasoRnd, c='g', marker= 'o', markersize = 5,  label= u'Caso aleatorio')
 
 ax1.set_xlabel('Cantidad de tesoros')
 ax1.set_ylabel(u'Tiempo de ejecución [nanosegundos]')
